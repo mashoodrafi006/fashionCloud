@@ -14,5 +14,7 @@ It's an Fashion Cloud API's project.
 
 ## Code Style
 
--   Install Prettier plugin for auto code refactor
--   Install ESLint plugin
+-   Installed **Prettier** plugin for auto code refactor
+-   Installed **ESLint** plugin
+-   Installed **Husky** to integrate pre-push hooks and **branch-naming-check** so code is pushed to valid branch names only.
+-   **Logger ** is integrated to maintain logs of all exceptions.
