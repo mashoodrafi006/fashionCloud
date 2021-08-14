@@ -21,6 +21,6 @@ router.delete('/', CacheValidator.validateKey, CacheController.deleteKey);
 router.delete('/all', CacheController.truncateCache);
 
 /* Endpoint that will clear older cache when collection documents number limit is reached. */
-router.delete('/clearCache', CacheController.clearCache);
+router.delete('/clear-old-records', CacheController.clearCache);
 
 module.exports = router;
