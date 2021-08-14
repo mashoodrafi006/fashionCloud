@@ -18,6 +18,7 @@ const Cache = mongoose.Schema(
     { timestamps: true }
 )
 
+/* Collection is indexed. */
 Cache.index({ key: 1 });
 Cache.index({ value: 1 });
 

@@ -66,6 +66,7 @@ cacheRepository.fetchCache = async (paginations) => {
 cacheRepository.findCachedValue = async (key) => {
     try {
         let value = "";
+        /* lean method is used to improve the performance of the read operation */
         let keyValuePair = await cache.findOne({ key }).select('-_id value').lean();
         if (keyValuePair !== null && keyValuePair.value.length) {
             value = keyValuePair.value;
@@ -73,6 +74,7 @@ cacheRepository.findCachedValue = async (key) => {
                 key,
                 expireAt: new Date()
             }
+            /* Set time in expiredAt*/
             cache.updateOne({ key: keyValuePair.key }, keyValuePair, { upsert: true });
         }
         return value;
@@ -91,7 +93,7 @@ cacheRepository.clearOldCache = async () => {
         */
         if(numberOfExtraDocuments < 0){
             const limit = -1 * (numberOfExtraDocuments);
-            /* Find keys of oldest documents to delete from collection */
+            /* Find keys of oldest documents to delete from collection. */
             const keysToDelete = await cache.find({}).sort({expireAt: 1}).skip(0).limit(limit).select('key');
             let keysToDeleteList = [];
             keysToDelete.forEach(keys => {

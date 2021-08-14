@@ -1,4 +1,5 @@
 import cacheRepository from "../repositories/cacheRepository";
+import logger from "../../utils/logger";
 const cacheService = {};
 
 cacheService.createKey = async (keyValuePair) => {
@@ -37,10 +38,10 @@ cacheService.findKeyValuePair = async (key) => {
     try {
         const foundCachedValue = await cacheRepository.findCachedValue(key);
         const cachedValue = cacheService.logOutPut(foundCachedValue);
-        if(!foundCachedValue.length){
-            cacheRepository.createKeyValuePair({key, value: cachedValue});
+        if (!foundCachedValue.length) {
+            cacheRepository.createKeyValuePair({ key, value: cachedValue });
         }
-        return {key: key, value: cachedValue};
+        return { key: key, value: cachedValue };
     } catch (error) {
         throw error;
     }
@@ -65,10 +66,18 @@ cacheService.createRandomString = () => {
 cacheService.logOutPut = (value) => {
     try {
         let keyValue = value;
-        if(value.length){
+        if (value.length) {
             console.log("Cache hit.");
-        }else{
+            logger.log({
+                level: 'error',
+                message: "Cache hit.",
+            });
+        } else {
             console.log("Cache miss.");
+            logger.log({
+                level: 'error',
+                message: "Cache miss.",
+            });
             keyValue = cacheService.createRandomString();
         }
         return keyValue;
