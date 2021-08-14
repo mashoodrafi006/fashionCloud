@@ -91,15 +91,15 @@ cacheRepository.clearOldCache = async () => {
         /*
         Get the count of documents exceeding collection limit.
         */
-        if(numberOfExtraDocuments < 0){
+        if (numberOfExtraDocuments < 0) {
             const limit = -1 * (numberOfExtraDocuments);
             /* Find keys of oldest documents to delete from collection. */
-            const keysToDelete = await cache.find({}).sort({expireAt: 1}).skip(0).limit(limit).select('key');
+            const keysToDelete = await cache.find({}).sort({ expireAt: 1 }).skip(0).limit(limit).select('key');
             let keysToDeleteList = [];
             keysToDelete.forEach(keys => {
                 keysToDeleteList.push(keys.key);
             });
-            await cache.deleteMany({key: {$in: keysToDeleteList}});
+            await cache.deleteMany({ key: { $in: keysToDeleteList } });
         }
 
     } catch (error) {
